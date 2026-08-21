@@ -2,6 +2,25 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Navigating this codebase
+
+A graphify knowledge graph is built at `graphify-out/graph.json`. **Prefer it
+over grep/read for questions about structure, rationale, or how pieces
+connect:**
+
+```sh
+graphify query "why does parseNpy read the header itself?"
+graphify path "NpzSummaryView()" "parseNpz()"
+graphify explain "decodeValues()"
+graphify --update .        # after changing files, re-extract only what changed
+```
+
+The design rationale in this file is extracted into the graph as concept nodes
+(`Local NPY Header Parsing`, `Dtype Constructor Match Guard`, `Scoped Error
+Handling`, …) linked by `rationale_for` edges to the functions they explain, so
+a query returns the *why* alongside the code. `graphify-out/` is gitignored —
+it holds machine-specific absolute paths, so each clone rebuilds its own.
+
 ## Commands
 
 ```sh
