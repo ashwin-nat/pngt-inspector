@@ -7,7 +7,7 @@ export interface ZipEntry {
 }
 
 /**
- * Unzip an archive off the main thread. Used for the dropped .pngtel itself,
+ * Unzip an archive off the main thread. Used for the dropped .pngt itself,
  * which can be large enough that a synchronous inflate would jank the UI.
  */
 export function unzipArchive(buffer: ArrayBuffer): Promise<ZipEntry[]> {

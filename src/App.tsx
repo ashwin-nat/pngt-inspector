@@ -82,7 +82,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1 className="header__title">pngtel Inspector</h1>
+        <h1 className="header__title">pngt Inspector</h1>
         {stats && (
           <span className="header__stats">
             {stats.files} files · {stats.json} json · {stats.npz} npz
@@ -108,7 +108,7 @@ export default function App() {
             />
           ) : (
             <p className="notice">
-              {busy ? "Reading archive…" : "Drop a .pngtel file to begin."}
+              {busy ? "Reading archive…" : "Drop a .pngt file to begin."}
             </p>
           )}
         </section>

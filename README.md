@@ -1,6 +1,6 @@
-# pngtel Inspector
+# pngt Inspector
 
-A standalone, browser-only tool for inspecting `.pngtel` files. Drop a file in
+A standalone, browser-only tool for inspecting `.pngt` files. Drop a file in
 and navigate its structure — no backend, no upload, nothing leaves the browser.
 
 It exists to answer *"is this file shaped the way the spec says it should be"*
@@ -17,7 +17,7 @@ npm run build    # static output in dist/
 npm run preview  # serve the built output
 ```
 
-Open the page and drop a `.pngtel` file onto the header (or click to browse).
+Open the page and drop a `.pngt` file onto the header (or click to browse).
 
 - **Left pane** — the ZIP structure, with per-file size and type.
 - **Right pane** — the selected file's contents:

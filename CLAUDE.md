@@ -40,7 +40,7 @@ own instruction. Do not commit it and do not remove that ignore entry.
 
 ## What this tool is for
 
-Verifying that a `.pngtel` file is *shaped* the way the file-format spec says —
+Verifying that a `.pngt` file is *shaped* the way the file-format spec says —
 keys, nesting, dtypes, array lengths, file presence. It is a structure
 verification tool, not a data viewer. Raw sensor values are reachable but stay
 one click away, behind `RawValuesModal`. Resist requests to surface values more
@@ -50,7 +50,7 @@ that frontend or with the separate stats explorer.
 
 ## Architecture
 
-**Two levels of ZIP.** A `.pngtel` is a ZIP; each `.npz` inside it is *itself* a
+**Two levels of ZIP.** A `.pngt` is a ZIP; each `.npz` inside it is *itself* a
 ZIP of `.npy` members. That is why `lib/unzip.ts` exports two functions:
 `unzipArchive` (async, worker-backed) for the dropped file, which can be large,
 and `unzipArchiveSync` for the small in-memory `.npz` members where a worker
@@ -118,7 +118,7 @@ browsable. Do not add the checks the real app enforces.
 
 This is an internal dev inspection tool. Keep changes proportionate — there is
 deliberately no test suite, and adding one is not wanted. `npm run build` is the
-check. Verify parsing changes by opening a real `.pngtel` in the app.
+check. Verify parsing changes by opening a real `.pngt` in the app.
 
 ## Deployment
 

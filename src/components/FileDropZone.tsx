@@ -61,7 +61,7 @@ export function FileDropZone({ onFile, busy, loadedName }: FileDropZoneProps) {
           ? "Reading…"
           : loadedName
             ? `${loadedName} — drop another to replace`
-            : "Drop a .pngtel file"}
+            : "Drop a .pngt file"}
       </span>
     </div>
   );
