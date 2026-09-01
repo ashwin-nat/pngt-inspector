@@ -12,7 +12,7 @@ connect:**
 graphify query "why does parseNpy read the header itself?"
 graphify path "NpzSummaryView()" "parseNpz()"
 graphify explain "decodeValues()"
-graphify --update .        # after changing files, re-extract only what changed
+graphify update .          # after changing files, re-extract only what changed
 ```
 
 The design rationale in this file is extracted into the graph as concept nodes
