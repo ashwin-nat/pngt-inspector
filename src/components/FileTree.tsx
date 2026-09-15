@@ -1,4 +1,4 @@
-import { Tree, type NodeRendererProps } from "react-arborist";
+import { Tree, type TreeApi, type NodeRendererProps } from "react-arborist";
 import { type FileNode, extensionOf, formatBytes } from "../lib/buildFileTree";
 import { useElementSize } from "../lib/useElementSize";
 
@@ -6,16 +6,18 @@ interface FileTreeProps {
   nodes: FileNode[];
   selectedPath: string | null;
   onSelectFile: (path: string) => void;
+  treeRef?: React.Ref<TreeApi<FileNode> | undefined>;
 }
 
 /** ZIP structure pane. */
-export function FileTree({ nodes, selectedPath, onSelectFile }: FileTreeProps) {
+export function FileTree({ nodes, selectedPath, onSelectFile, treeRef }: FileTreeProps) {
   const { ref, width, height } = useElementSize<HTMLDivElement>();
 
   return (
     <div className="tree-host" ref={ref}>
       {width > 0 && height > 0 && (
         <Tree<FileNode>
+          ref={treeRef}
           data={nodes}
           idAccessor="id"
           width={width}

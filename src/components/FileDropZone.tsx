@@ -47,6 +47,7 @@ export function FileDropZone({ onFile, busy, loadedName }: FileDropZoneProps) {
       <input
         ref={inputRef}
         type="file"
+        accept=".pngt"
         className="dropzone__input"
         onChange={(event) => {
           const file = event.target.files?.[0];
@@ -60,8 +61,8 @@ export function FileDropZone({ onFile, busy, loadedName }: FileDropZoneProps) {
         {busy
           ? "Reading…"
           : loadedName
-            ? `${loadedName} — drop another to replace`
-            : "Drop a .pngt file"}
+            ? `${loadedName} — drop another, or click to browse`
+            : "Drop a .pngt file, or click to browse"}
       </span>
     </div>
   );

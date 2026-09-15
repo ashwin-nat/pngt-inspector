@@ -94,6 +94,17 @@ memoised per file. Top level is expanded and everything below collapsed
 (`openByDefault={false}` over root-level entries) so a file's shape is visible
 without scrolling.
 
+### RawValuesModal's header is a separate table, not a sticky `<thead>`
+
+`position: sticky` on table cells inside a scrolled container is unreliable
+across browsers — rows can render on top of the "frozen" header instead of
+under it. `RawValuesModal` avoids this by giving the header its own
+un-scrolled `<table>` above `.values-scroll`, which holds a second `<table>`
+for just the rows. Both tables share an identical `<colgroup>` (fixed
+`.values__col-index` width) so their columns stay aligned without sticky
+positioning at all. Do not collapse this back into one `<table>` with a sticky
+`<thead>`.
+
 ### Controlled selection echoes back
 
 `FileTree` selection is controlled via the `selection` prop. react-arborist

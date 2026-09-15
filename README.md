@@ -25,10 +25,11 @@ Open the page and drop a `.pngt` file onto the header (or click to browse).
     collapsed, so the shape of the file is visible at a glance. Each row shows
     its JSON type.
   - `.npz` renders as a name / dtype / shape summary — one row per array. Click
-    a row for that array's raw values.
+    a row for that array's min/max/mean/median/stddev/entropy and raw values.
 
 Both panes are the same `react-arborist` tree, so expand/collapse and keyboard
-navigation behave identically in each.
+navigation behave identically in each. **Collapse all** / **Expand all** above
+the file tree operate on the whole tree at once.
 
 ### What it flags
 

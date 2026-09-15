@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { TreeApi } from "react-arborist";
 import { FileDropZone } from "./components/FileDropZone";
 import { FileTree } from "./components/FileTree";
 import { JsonTree } from "./components/JsonTree";
@@ -26,6 +27,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const [content, setContent] = useState<Content | null>(null);
+  const treeApiRef = useRef<TreeApi<FileNode> | undefined>(undefined);
 
   const handleFile = useCallback(async (file: File) => {
     setBusy(true);
@@ -101,11 +103,30 @@ export default function App() {
         <section className="pane pane--files">
           <h2 className="pane__title">File Tree</h2>
           {archive ? (
-            <FileTree
-              nodes={archive.tree}
-              selectedPath={selectedPath}
-              onSelectFile={handleSelectFile}
-            />
+            <>
+              <div className="tree-actions">
+                <button
+                  type="button"
+                  className="tree-actions__button"
+                  onClick={() => treeApiRef.current?.closeAll()}
+                >
+                  Collapse all
+                </button>
+                <button
+                  type="button"
+                  className="tree-actions__button"
+                  onClick={() => treeApiRef.current?.openAll()}
+                >
+                  Expand all
+                </button>
+              </div>
+              <FileTree
+                nodes={archive.tree}
+                selectedPath={selectedPath}
+                onSelectFile={handleSelectFile}
+                treeRef={treeApiRef}
+              />
+            </>
           ) : (
             <p className="notice">
               {busy ? "Reading archive…" : "Drop a .pngt file to begin."}
