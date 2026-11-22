@@ -4,13 +4,18 @@ import { RawValuesModal } from "./RawValuesModal";
 
 interface NpzSummaryViewProps {
   entries: NpzEntry[];
+  /** Off for a standalone .npz, which isn't necessarily a lap file. */
+  checkLengths?: boolean;
 }
 
 /**
  * Structural summary of an .npz: one row per array, name/dtype/shape only.
  * Values are behind a click, in RawValuesModal.
  */
-export function NpzSummaryView({ entries }: NpzSummaryViewProps) {
+export function NpzSummaryView({
+  entries,
+  checkLengths = true,
+}: NpzSummaryViewProps) {
   const [openArray, setOpenArray] = useState<string | null>(null);
 
   // Sample count is the leading dimension. Arrays in one lap file should all
@@ -29,7 +34,7 @@ export function NpzSummaryView({ entries }: NpzSummaryViewProps) {
     return { lengths: new Set(counts.keys()), majority: winner };
   }, [entries]);
 
-  const mismatched = lengths.size > 1;
+  const mismatched = checkLengths && lengths.size > 1;
   const selected = entries.find((entry) => entry.name === openArray);
 
   if (entries.length === 0) {

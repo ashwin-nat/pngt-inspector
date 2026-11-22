@@ -36,7 +36,23 @@ export default function App() {
     setContent(null);
 
     try {
-      const entries = await unzipArchive(await file.arrayBuffer());
+      const buffer = await file.arrayBuffer();
+
+      // A bare .npz is treated as a one-file archive and auto-selected, so it
+      // goes through the same tree/content path as a member of a .pngt.
+      if (extensionOf(file.name) === "npz") {
+        const entry: ZipEntry = { path: file.name, bytes: new Uint8Array(buffer) };
+        setArchive({
+          name: file.name,
+          entries: new Map([[entry.path, entry]]),
+          tree: buildFileTree([entry]),
+        });
+        setSelectedPath(entry.path);
+        setContent(readEntry(entry));
+        return;
+      }
+
+      const entries = await unzipArchive(buffer);
       setArchive({
         name: file.name,
         entries: new Map(entries.map((entry) => [entry.path, entry])),
@@ -129,7 +145,7 @@ export default function App() {
             </>
           ) : (
             <p className="notice">
-              {busy ? "Reading archive…" : "Drop a .pngt file to begin."}
+              {busy ? "Reading archive…" : "Drop a .pngt or .npz file to begin."}
             </p>
           )}
         </section>
@@ -139,7 +155,11 @@ export default function App() {
             Content Pane
             {selectedPath && <span className="pane__path">{selectedPath}</span>}
           </h2>
-          <ContentPane content={content} hasArchive={Boolean(archive)} />
+          <ContentPane
+            content={content}
+            hasArchive={Boolean(archive)}
+            standalone={archive ? extensionOf(archive.name) === "npz" : false}
+          />
         </section>
       </main>
     </div>
@@ -149,9 +169,12 @@ export default function App() {
 function ContentPane({
   content,
   hasArchive,
+  standalone,
 }: {
   content: Content | null;
   hasArchive: boolean;
+  /** True when a bare .npz was loaded rather than a .pngt. */
+  standalone: boolean;
 }) {
   if (!content) {
     return (
@@ -172,7 +195,12 @@ function ContentPane({
         </div>
       );
     case "npz":
-      return <NpzSummaryView entries={content.entries} />;
+      return (
+        <NpzSummaryView
+          entries={content.entries}
+          checkLengths={!standalone}
+        />
+      );
     case "npz-error":
       return <div className="banner banner--error">{content.message}</div>;
     case "unsupported":
